@@ -8,11 +8,16 @@ import (
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
 )
 
+type A struct {
+	Name string `json:"name"`
+}
+
 func init() {
 	common.InitSlogger()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, World!")
+		common.JSON(w, http.StatusOK, A{Name: "Daniel"})
+		fmt.Print("hi")
 	})
 }
 
