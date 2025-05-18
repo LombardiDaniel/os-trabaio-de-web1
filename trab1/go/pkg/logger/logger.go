@@ -1,17 +1,19 @@
-package common
+package logger
 
 import (
 	"log/slog"
 	"os"
 	"strings"
+
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
 )
 
 // LOG_LEVEL defines the logging level for the application, defaulting to "INFO".
-var LOG_LEVEL string = strings.ToUpper(GetEnvVarDefault("LOG_LEVEL", "INFO"))
+var LOG_LEVEL string = strings.ToUpper(common.GetEnvVarDefault("LOG_LEVEL", "INFO"))
 
 // InitSlogger initializes the global logger with the specified log level.
 func InitSlogger() {
-	levelsMap := map[string]slog.Level{
+	lvls := map[string]slog.Level{
 		"DEBUG":   slog.LevelDebug,
 		"INFO":    slog.LevelInfo,
 		"WARN":    slog.LevelWarn,
@@ -23,7 +25,7 @@ func InitSlogger() {
 		os.Stdout,
 		&slog.HandlerOptions{
 			AddSource: true,
-			Level:     levelsMap[LOG_LEVEL],
+			Level:     lvls[LOG_LEVEL],
 		},
 	))
 

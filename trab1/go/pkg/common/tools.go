@@ -2,12 +2,12 @@ package common
 
 import (
 	"crypto/rand"
+	"html/template"
 	"log/slog"
 	"math/big"
 	"net/url"
 	"os"
 	"strings"
-	"text/template"
 )
 
 // SplitName splits a full name into first and last name. If no last name exists, it returns an empty string.
