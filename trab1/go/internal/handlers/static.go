@@ -20,13 +20,13 @@ func NewStaticHandler(templatesDir string) Handler {
 	}
 }
 
-type indexVars struct {
-	Ip string
-}
-
 func (h *StaticHandler) Index(w http.ResponseWriter, r *http.Request) {
+	type idxVars struct {
+		Ip string
+	}
+
 	body := new(bytes.Buffer)
-	err := h.index.Execute(body, indexVars{
+	err := h.index.Execute(body, idxVars{
 		Ip: r.RemoteAddr,
 	})
 
