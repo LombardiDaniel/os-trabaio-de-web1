@@ -1,4 +1,4 @@
-package handlers
+package controllers
 
 import (
 	"bytes"
@@ -10,23 +10,23 @@ import (
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
 )
 
-type StaticHandler struct {
+type StaticController struct {
 	index *template.Template
 }
 
-func NewStaticHandler(templatesDir string) Handler {
-	return &StaticHandler{
+func NewStaticController(templatesDir string) Controller {
+	return &StaticController{
 		index: common.LoadHTMLTemplate(filepath.Join(templatesDir, "index.html")),
 	}
 }
 
-func (h *StaticHandler) Index(w http.ResponseWriter, r *http.Request) {
+func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 	type idxVars struct {
 		Ip string
 	}
 
 	body := new(bytes.Buffer)
-	err := h.index.Execute(body, idxVars{
+	err := c.index.Execute(body, idxVars{
 		Ip: r.RemoteAddr,
 	})
 
@@ -38,6 +38,6 @@ func (h *StaticHandler) Index(w http.ResponseWriter, r *http.Request) {
 	w.Write(body.Bytes())
 }
 
-func (h *StaticHandler) RegisterRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("GET /", h.Index)
+func (c *StaticController) RegisterRoutes(mux *http.ServeMux) {
+	mux.HandleFunc("GET /", c.Index)
 }

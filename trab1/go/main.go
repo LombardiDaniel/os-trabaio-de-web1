@@ -7,7 +7,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/handlers"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/controllers"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/logger"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/rest"
 )
@@ -17,7 +17,7 @@ var (
 
 	// userService services.UserService
 
-	hs []handlers.Handler
+	hs []controllers.Controller
 )
 
 func init() {
@@ -36,9 +36,9 @@ func init() {
 
 	// userService = services.NewUserServicePgImpl(db)
 
-	hs = []handlers.Handler{
-		handlers.NewExampleHandler(),
-		handlers.NewStaticHandler("./internal/views/"),
+	hs = []controllers.Controller{
+		controllers.NewExampleController(),
+		controllers.NewStaticController("./internal/views/"),
 	}
 
 	for _, h := range hs {
