@@ -10,6 +10,7 @@ import (
 
 var authCookieName = constants.AppName + "-userSessionId"
 
+// UserSessionId gets the Session Id from the user cookie
 func UserSessionId(req *http.Request) (string, error) {
 	c, err := req.Cookie(authCookieName)
 	if err != nil {
