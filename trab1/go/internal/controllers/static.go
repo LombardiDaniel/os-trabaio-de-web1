@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"log/slog"
 	"net/http"
@@ -11,16 +12,27 @@ import (
 )
 
 type StaticController struct {
-	index *template.Template
+	index       *template.Template
+	create_user *template.Template
+
+	m map[string]*template.Template
 }
 
 func NewStaticController(templatesDir string) Controller {
+
+	m := map[string]*template.Template{
+		// "/index": common.
+	}
+
 	return &StaticController{
-		index: common.LoadHTMLTemplate(filepath.Join(templatesDir, "index.html")),
+		index:       common.LoadHTMLTemplate(filepath.Join(templatesDir, "index.html")),
+		create_user: common.LoadHTMLTemplate(filepath.Join(templatesDir, "create_user.html")),
+		m:           m,
 	}
 }
 
 func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
+	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
 	type idxVars struct {
 		Ip string
 	}
@@ -38,6 +50,19 @@ func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 	w.Write(body.Bytes())
 }
 
+func (c *StaticController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
+	body := new(bytes.Buffer)
+	err := c.create_user.Execute(body, nil)
+
+	if err != nil {
+		slog.Error(err.Error())
+		return
+	}
+	w.Write(body.Bytes())
+}
+
 func (c *StaticController) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /", c.Index)
+	mux.HandleFunc("GET /create-user", c.CreateUser)
 }

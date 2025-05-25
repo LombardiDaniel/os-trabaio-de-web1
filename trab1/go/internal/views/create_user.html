@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create User</title>
+  </head>
+  <body>
+    <h2>Create User</h2>
+    <form id="createUserForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br /><br />
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+      <button type="submit">Create User</button>
+    </form>
+    <script>
+      document
+        .getElementById("createUserForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const res = await fetch("/user", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          if (res.status == 200) {
+            alert("User created!");
+          } else {
+            alert("Error creating user");
+          }
+        });
+    </script>
+  </body>
+</html>

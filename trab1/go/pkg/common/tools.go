@@ -8,6 +8,8 @@ import (
 	"net/url"
 	"os"
 	"strings"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // SplitName splits a full name into first and last name. If no last name exists, it returns an empty string.
@@ -36,6 +38,23 @@ func LoadHTMLTemplate(templatePath string) *template.Template {
 	}
 
 	return t
+}
+
+// HashPassword generates a bcrypt hash of the given password string.
+// It returns the hashed password as a string and any error encountered.
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
+}
+
+// CheckPasswordHash compares a plaintext password with a bcrypt hashed password.
+// Returns true if the password matches the hash, false otherwise.
+func CheckPasswordHash(password string, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 // GetEnvVarDefault retrieves the value of the specified environment variable.

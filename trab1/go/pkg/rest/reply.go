@@ -3,6 +3,7 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log/slog"
 	"net/http"
 	"net/url"
@@ -38,6 +39,14 @@ func JSON(w http.ResponseWriter, code int, obj any) {
 	}
 
 	Header(w, "Content-Type", "application/json; charset=utf-8")
+}
+
+func HTML(w http.ResponseWriter, code int, tmpl *template.Template, data any) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(code)
+	if err := tmpl.Execute(w, data); err != nil {
+		slog.Error(fmt.Sprintf("Could not execute template: %s", err))
+	}
 }
 
 // Header sets a Header in the response
