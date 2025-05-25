@@ -66,8 +66,10 @@ func Header(w http.ResponseWriter, key string, value string) {
 }
 
 func SetAuth(w http.ResponseWriter, user models.User) {
+
 	SetCookie(
 		w,
+		authCookieName,
 	)
 }
 
