@@ -7,6 +7,13 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+
+	models "github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/model"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/constants"
+)
+
+var (
+	authCookieName string = constants.AppName + "-authCookie"
 )
 
 // String writes the given string into the response body.
@@ -56,6 +63,12 @@ func Header(w http.ResponseWriter, key string, value string) {
 		return
 	}
 	w.Header().Set(key, value)
+}
+
+func SetAuth(w http.ResponseWriter, user models.User) {
+	SetCookie(
+		w,
+	)
 }
 
 // SetCookie sets a cookie in he browser

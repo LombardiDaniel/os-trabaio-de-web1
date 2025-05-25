@@ -41,6 +41,28 @@ func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	rest.String(w, http.StatusOK, "OK")
 }
 
+func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
+	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
+	u := models.User{}
+	err := rest.ReadBody(r, &u)
+	if err != nil {
+		slog.Error(fmt.Sprintf("could not read body: %s", err.Error()))
+		rest.String(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	u.IsAdmin = false
+
+	err = c.userService.CreateUser(r.Context(), u)
+	if err != nil {
+		slog.Error(err.Error())
+		rest.String(w, http.StatusBadGateway, "BadGateway")
+	}
+
+	rest.String(w, http.StatusOK, "OK")
+}
+
 func (c *UserController) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("PUT /user", c.CreateUser)
+	mux.HandleFunc("POST /login", c.CreateUser)
 }

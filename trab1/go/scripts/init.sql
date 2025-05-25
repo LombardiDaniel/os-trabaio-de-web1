@@ -6,6 +6,25 @@ CREATE TABLE users (
     is_admin BOOLEAN NOT NULL DEFAULT false
 );
 
+CREATE TABLE auth_sessions(
+    user_email VARCHAR(100) REFERENCES users(email) PRIMARY KEY,
+    exp TIMESTAMPTZ DEFAULT NOW() + INTERVAL '1 hour'
+);
+
+CREATE FUNCTION delete_expired_sessions()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM auth_sessions
+    WHERE exp < NOW();
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE PLpgSQL;
+
+CREATE TRIGGER delete_expired_org_invites
+AFTER INSERT ON auth_sessions
+FOR EACH STATEMENT EXECUTE FUNCTION delete_expired_sessions();
+
 CREATE TABLE projects(
     project_name VARCHAR(100) PRIMARY KEY,
     created_at TIMESTAMPTZ DEFAULT NOW()
