@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2em;
+      }
+      .admin {
+        color: #fff;
+        background: #007bff;
+        padding: 0.5em 1em;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .user {
+        color: #333;
+        background: #f0f0f0;
+        padding: 0.5em 1em;
+        border-radius: 4px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Homepage</h1>
+    {{if .IsAdmin}}
+    <div class="admin">You are logged in as <strong>Admin</strong>.</div>
+    {{else}}
+    <div class="user">You are logged in as <strong>User</strong>.</div>
+    {{end}}
+  </body>
+</html>

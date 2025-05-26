@@ -11,6 +11,7 @@ import (
 
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/controllers"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/services"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/views"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/logger"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/rest"
@@ -39,10 +40,12 @@ func init() {
 	userService := services.NewUserServiceImpl(db)
 	authService := services.NewAuthService(db)
 
+	views := views.NewViews("./internal/views/")
+
 	hs = []controllers.Controller{
 		controllers.NewExampleController(),
 		controllers.NewStaticController("./internal/views/"),
-		controllers.NewUserController(userService, authService),
+		controllers.NewUserController(userService, authService, views),
 	}
 
 	for _, h := range hs {

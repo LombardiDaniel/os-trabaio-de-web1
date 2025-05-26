@@ -14,20 +14,12 @@ import (
 type StaticController struct {
 	index       *template.Template
 	create_user *template.Template
-
-	m map[string]*template.Template
 }
 
 func NewStaticController(templatesDir string) Controller {
-
-	m := map[string]*template.Template{
-		// "/index": common.
-	}
-
 	return &StaticController{
 		index:       common.LoadHTMLTemplate(filepath.Join(templatesDir, "index.html")),
 		create_user: common.LoadHTMLTemplate(filepath.Join(templatesDir, "create_user.html")),
-		m:           m,
 	}
 }
 
