@@ -26,7 +26,8 @@
           body: JSON.stringify({ email, password })
         });
         if (res.ok) {
-          alert('Login successful!');
+          alert('Login Sucessful');
+          window.location.href = '/check';
         } else {
           alert('Login failed');
         }

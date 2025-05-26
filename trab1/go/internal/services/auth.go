@@ -25,6 +25,16 @@ func NewAuthService(db *sql.DB) AuthService {
 }
 
 func (a *AuthServiceImpl) InitToken(email string, password string) (string, error) {
+	var passwordHash string
+	err := a.db.QueryRow(`SELECT password_hash FROM users WHERE email = $1`, email).Scan(&passwordHash)
+	if err != nil {
+		return "", errors.New("invalid email or password")
+	}
+
+	if !common.CheckPasswordHash(password, passwordHash) {
+		return "", errors.New("invalid email or password")
+	}
+
 	sessionID, err := common.GenerateRandomString(32)
 	if err != nil {
 		return "", err
