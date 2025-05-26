@@ -71,7 +71,7 @@ func (c *ProjectController) GetProjects(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if usr.IsAdmin {
-		rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: ps})
+		rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: ps, Admin: true})
 		return
 	}
 
@@ -81,7 +81,7 @@ func (c *ProjectController) GetProjects(w http.ResponseWriter, r *http.Request) 
 			usrPs = append(usrPs, p)
 		}
 	}
-	rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: usrPs})
+	rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: usrPs, Admin: false})
 }
 
 func (c *ProjectController) RegisterRoutes(mux *http.ServeMux) {

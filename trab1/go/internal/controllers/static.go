@@ -35,7 +35,7 @@ func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 		usr.IsAdmin = false
 	}
 
-	rest.HTML(w, http.StatusOK, c.v.Index, views.HtmlIdxVars{UserEmail: usr.Email, IsAdmin: usr.IsAdmin})
+	rest.HTML(w, http.StatusOK, c.v.Index, views.HtmlIdxVars{UserEmail: usr.Email, Admin: usr.IsAdmin})
 }
 
 func (c *StaticController) CreateUser(w http.ResponseWriter, r *http.Request) {

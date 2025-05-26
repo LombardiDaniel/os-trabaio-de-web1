@@ -31,10 +31,11 @@ type HtmlHomeVars struct {
 
 type HtmlProjectsVars struct {
 	UserEmail string
+	Admin     bool
 	Projects  []models.Project
 }
 
 type HtmlIdxVars struct {
 	UserEmail string
-	IsAdmin   bool
+	Admin     bool
 }
