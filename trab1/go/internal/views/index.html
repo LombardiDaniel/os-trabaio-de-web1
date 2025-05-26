@@ -31,24 +31,24 @@
         <button type="submit">Login</button>
       </form>
     </div>
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const res = await fetch("/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
+  <script>
+        document
+          .getElementById("loginForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const res = await fetch("/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+            if (res.ok) {
+              window.location.href = "/check";
+            } else {
+              document.getElementById("loginError").style.display = "block";
+            }
           });
-          // if (res.ok) {
-          //   alert("Login successful!");
-          // } else {
-          //   alert("Login failed");
-          // }
-        });
-    </script>
+      </script>
   </body>
 </html>
