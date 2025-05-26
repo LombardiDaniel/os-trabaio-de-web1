@@ -13,7 +13,7 @@ import (
 
 // String writes the given string into the response body.
 func String(w http.ResponseWriter, code int, r string) {
-	defer setStatus(w, code)
+	setStatus(w, code)
 
 	_, err := fmt.Fprint(w, r)
 	if err != nil {
@@ -26,7 +26,7 @@ func String(w http.ResponseWriter, code int, r string) {
 // JSON serializes the given struct as JSON into the response body.
 // It also sets the Content-Type as "application/json".
 func JSON(w http.ResponseWriter, code int, obj any) {
-	defer setStatus(w, code)
+	setStatus(w, code)
 
 	b, err := json.Marshal(obj)
 	if err != nil {
