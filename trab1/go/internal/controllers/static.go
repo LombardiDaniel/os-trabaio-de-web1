@@ -31,8 +31,10 @@ func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 
 	usr, err := AuthUser(c.authService, r)
 	if err != nil {
-		rest.String(w, http.StatusUnauthorized, "Unauthorized")
-		return
+		// rest.String(w, http.StatusUnauthorized, "Unauthorized")
+		// return
+		usr.Email = ""
+		usr.IsAdmin = false
 	}
 
 	rest.HTML(w, http.StatusOK, c.v.Index, views.HtmlIdxVars{UserEmail: usr.Email, IsAdmin: usr.IsAdmin})
