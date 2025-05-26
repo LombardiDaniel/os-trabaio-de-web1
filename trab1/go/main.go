@@ -52,9 +52,11 @@ func init() {
 		},
 	))
 
-	err := minioClient.MakeBucket(context.TODO(), constants.S3Bucket, minio.MakeBucketOptions{})
-	if err != nil {
-		panic(errors.Join(err, errors.New("could not make bucket")))
+	if !it.Must(minioClient.BucketExists(context.TODO(), constants.S3Bucket)) {
+		err := minioClient.MakeBucket(context.TODO(), constants.S3Bucket, minio.MakeBucketOptions{})
+		if err != nil {
+			slog.Error(errors.Join(err, errors.New("could not make bucket")).Error())
+		}
 	}
 
 	userService := services.NewUserServiceImpl(db)

@@ -1,4 +1,15 @@
 services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    network_mode: host
+    depends_on:
+      - db
+      - minio
+
   db:
     # image: postgres:latest
     image: postgres:16.6-bullseye
