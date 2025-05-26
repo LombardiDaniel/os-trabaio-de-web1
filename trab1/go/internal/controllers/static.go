@@ -28,17 +28,14 @@ func NewStaticController(userService services.UserService, authService services.
 
 func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
-	type idxVars struct {
-		UserEmail string
-	}
 
-	usr, err := NeedAdmin(c.authService, r)
+	usr, err := AuthUser(c.authService, r)
 	if err != nil {
 		rest.String(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	rest.HTML(w, http.StatusOK, c.v.Index, idxVars{UserEmail: usr.Email})
+	rest.HTML(w, http.StatusOK, c.v.Index, views.HtmlIdxVars{UserEmail: usr.Email, IsAdmin: usr.IsAdmin})
 }
 
 func (c *StaticController) CreateUser(w http.ResponseWriter, r *http.Request) {

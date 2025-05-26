@@ -8,6 +8,7 @@ import (
 	models "github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/model"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/services"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/views"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/rest"
 )
 
@@ -27,8 +28,12 @@ func NewProjectController(projectService services.ProjectService, authService se
 
 func (c *ProjectController) CreateProject(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
-	_, err := NeedAdmin(c.authService, r)
+	usr, err := AuthUser(c.authService, r)
 	if err != nil {
+		rest.String(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+	if !usr.IsAdmin {
 		rest.String(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
@@ -51,7 +56,7 @@ func (c *ProjectController) CreateProject(w http.ResponseWriter, r *http.Request
 
 func (c *ProjectController) GetProjects(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
-	usr, err := NeedAdmin(c.authService, r)
+	usr, err := AuthUser(c.authService, r)
 	if err != nil {
 		slog.Error(err.Error())
 		rest.String(w, http.StatusUnauthorized, "Unauthorized")
@@ -65,8 +70,18 @@ func (c *ProjectController) GetProjects(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	slog.Debug(fmt.Sprintf("%+v", ps))
-	rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: ps})
+	if usr.IsAdmin {
+		rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: ps})
+		return
+	}
+
+	usrPs := []models.Project{}
+	for _, p := range ps {
+		if common.IsSubset([]string{usr.Email}, p.Users) {
+			usrPs = append(usrPs, p)
+		}
+	}
+	rest.HTML(w, http.StatusOK, c.v.Projects, views.HtmlProjectsVars{UserEmail: usr.Email, Projects: usrPs})
 }
 
 func (c *ProjectController) RegisterRoutes(mux *http.ServeMux) {

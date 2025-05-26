@@ -33,3 +33,8 @@ type HtmlProjectsVars struct {
 	UserEmail string
 	Projects  []models.Project
 }
+
+type HtmlIdxVars struct {
+	UserEmail string
+	IsAdmin   bool
+}

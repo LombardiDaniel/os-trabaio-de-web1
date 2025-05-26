@@ -8,7 +8,7 @@ import (
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/rest"
 )
 
-func NeedAdmin(as services.AuthService, r *http.Request) (models.User, error) {
+func AuthUser(as services.AuthService, r *http.Request) (models.User, error) {
 	token, err := rest.GetAuth(r)
 	if err != nil {
 		return models.User{}, err

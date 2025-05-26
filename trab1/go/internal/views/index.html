@@ -13,8 +13,10 @@
   <body>
     <div class="container">
       <p>Hello {{if .UserEmail}}{{.UserEmail}}{{else}}Guest{{end}}</p>
+      {{if .IsAdmin}}
+      <p>Admin idx</p>
+      {{end}}
       <h1>waddup</h1>
-      <h2>{{ .Ip }}</h2>
       <h2>Login</h2>
       <form id="loginForm">
         <label for="email">Email:</label>
