@@ -14,13 +14,15 @@ import (
 type UserController struct {
 	userService services.UserService
 	authService services.AuthService
+	objService  services.ObjectService
 	v           views.Views
 }
 
-func NewUserController(userService services.UserService, authService services.AuthService, v views.Views) Controller {
+func NewUserController(userService services.UserService, authService services.AuthService, objService services.ObjectService, v views.Views) Controller {
 	return &UserController{
 		userService: userService,
 		authService: authService,
+		objService:  objService,
 		v:           v,
 	}
 }
@@ -68,7 +70,7 @@ func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	rest.String(w, http.StatusOK, "OK")
 }
 
-func (c *UserController) CheckAdmin(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
 	token, err := rest.GetAuth(r)
 	if err != nil {
@@ -82,11 +84,11 @@ func (c *UserController) CheckAdmin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rest.HTML(w, http.StatusOK, c.v.Home, u)
+	rest.HTML(w, http.StatusOK, c.v.Home, views.HtmlHomeVars{Admin: u.IsAdmin})
 }
 
 func (c *UserController) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("PUT /user", c.CreateUser)
 	mux.HandleFunc("POST /login", c.Login)
-	mux.HandleFunc("GET /check", c.CheckAdmin)
+	mux.HandleFunc("GET /check", c.CheckUser)
 }

@@ -20,3 +20,7 @@ func NewViews(templatesDir string) Views {
 		Home:       common.LoadHTMLTemplate(filepath.Join(templatesDir, "home.html")),
 	}
 }
+
+type HtmlHomeVars struct {
+	Admin bool
+}

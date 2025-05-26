@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -8,11 +9,15 @@ import (
 	"net/http"
 
 	_ "github.com/lib/pq"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/controllers"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/services"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/views"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/common"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/constants"
+	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/it"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/logger"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/rest"
 )
@@ -29,23 +34,39 @@ func init() {
 	mux = http.NewServeMux()
 
 	pgConnStr := common.GetEnvVarDefault("POSTGRES_URI", "postgres://user:password@localhost:5432/db?sslmode=disable")
-	db, err := sql.Open("postgres", pgConnStr)
-	if err != nil {
-		panic(errors.Join(err, errors.New("could not connect pgsql")))
-	}
+	db := it.Must(sql.Open("postgres", pgConnStr))
 	if err := db.Ping(); err != nil {
 		panic(errors.Join(err, errors.New("could not ping pgsql")))
 	}
 
+	minioClient := it.Must(minio.New(
+		"localhost:9000",
+		&minio.Options{
+			Creds: credentials.NewStaticV4(
+				"minioadmin",
+				"minioadmin",
+				"",
+			),
+			Region: "us-east-1",
+			Secure: false,
+		},
+	))
+
+	err := minioClient.MakeBucket(context.TODO(), constants.S3Bucket, minio.MakeBucketOptions{})
+	if err != nil {
+		panic(errors.Join(err, errors.New("could not make bucket")))
+	}
+
 	userService := services.NewUserServiceImpl(db)
 	authService := services.NewAuthService(db)
+	s3Service := services.NewObjectServiceMinioImpl(minioClient)
 
 	views := views.NewViews("./internal/views/")
 
 	hs = []controllers.Controller{
 		controllers.NewExampleController(),
 		controllers.NewStaticController("./internal/views/"),
-		controllers.NewUserController(userService, authService, views),
+		controllers.NewUserController(userService, authService, s3Service, views),
 	}
 
 	for _, h := range hs {
