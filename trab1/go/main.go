@@ -68,7 +68,7 @@ func init() {
 
 	hs = []controllers.Controller{
 		controllers.NewExampleController(),
-		controllers.NewStaticController("./internal/views/"),
+		controllers.NewStaticController(userService, authService, s3Service, views),
 		controllers.NewUserController(userService, authService, s3Service, views),
 		controllers.NewProjectController(projectService, authService, views),
 	}
