@@ -28,7 +28,7 @@ FOR EACH STATEMENT EXECUTE FUNCTION delete_expired_sessions();
 
 CREATE TABLE projects(
     project_name VARCHAR(100) PRIMARY KEY,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
     project_description TEXT
 );
 
