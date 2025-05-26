@@ -84,7 +84,7 @@ func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rest.HTML(w, http.StatusOK, c.v.Home, views.HtmlHomeVars{Admin: u.IsAdmin})
+	rest.HTML(w, http.StatusOK, c.v.Home, views.HtmlHomeVars{UserEmail: u.Email, Admin: u.IsAdmin})
 }
 
 func (c *UserController) RegisterRoutes(mux *http.ServeMux) {

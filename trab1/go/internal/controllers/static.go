@@ -26,12 +26,14 @@ func NewStaticController(templatesDir string) Controller {
 func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
 	type idxVars struct {
-		Ip string
+		UserEmail string
+		Ip        string
 	}
 
 	body := new(bytes.Buffer)
 	err := c.index.Execute(body, idxVars{
-		Ip: r.RemoteAddr,
+		UserEmail: "",
+		Ip:        r.RemoteAddr,
 	})
 
 	if err != nil {

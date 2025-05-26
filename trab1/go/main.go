@@ -62,6 +62,7 @@ func init() {
 	userService := services.NewUserServiceImpl(db)
 	authService := services.NewAuthService(db)
 	s3Service := services.NewObjectServiceMinioImpl(minioClient)
+	projectService := services.NewProjectService(db)
 
 	views := views.NewViews("./internal/views/")
 
@@ -69,6 +70,7 @@ func init() {
 		controllers.NewExampleController(),
 		controllers.NewStaticController("./internal/views/"),
 		controllers.NewUserController(userService, authService, s3Service, views),
+		controllers.NewProjectController(projectService, authService, views),
 	}
 
 	for _, h := range hs {
