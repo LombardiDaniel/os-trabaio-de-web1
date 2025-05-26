@@ -30,9 +30,7 @@ func (c *StaticController) Index(w http.ResponseWriter, r *http.Request) {
 	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
 
 	usr, err := AuthUser(c.authService, r)
-	if err != nil {
-		// rest.String(w, http.StatusUnauthorized, "Unauthorized")
-		// return
+	if err != nil { // user is not authenticated
 		usr.Email = ""
 		usr.IsAdmin = false
 	}

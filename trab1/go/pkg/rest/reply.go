@@ -73,6 +73,8 @@ func SetAuth(w http.ResponseWriter, token string) {
 	)
 }
 
+// func
+
 // SetCookie sets a cookie in he browser
 func SetCookie(w http.ResponseWriter, name string, value string, maxAge int, path, domain string, secure, httpOnly bool) {
 	if path == "" {

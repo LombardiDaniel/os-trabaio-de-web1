@@ -67,7 +67,7 @@ func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rest.SetAuth(w, token)
-	rest.String(w, http.StatusOK, "OK")
+	rest.String(w, http.StatusTemporaryRedirect, "/")
 }
 
 func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
