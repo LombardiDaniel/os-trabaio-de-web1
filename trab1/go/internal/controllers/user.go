@@ -46,7 +46,7 @@ func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rest.Redirect(w, "/login")
+	rest.String(w, 200, "OK")
 }
 
 func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
@@ -66,8 +66,10 @@ func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// slog.Info(u.Email)
+
 	rest.SetAuth(w, token)
-	rest.Redirect(w, "/")
+	rest.String(w, 200, "OK")
 }
 
 func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
@@ -87,8 +89,14 @@ func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
 	rest.HTML(w, http.StatusOK, c.v.Home, views.HtmlHomeVars{UserEmail: u.Email, Admin: u.IsAdmin})
 }
 
+func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
+	slog.Info(fmt.Sprintf("[%s]::%s", r.Method, r.RequestURI))
+	rest.SetAuth(w, "")
+}
+
 func (c *UserController) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("PUT /user", c.CreateUser)
 	mux.HandleFunc("POST /login", c.Login)
 	mux.HandleFunc("GET /check", c.CheckUser)
+	mux.HandleFunc("GET /logout", c.Logout)
 }

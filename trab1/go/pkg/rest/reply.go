@@ -12,10 +12,10 @@ import (
 )
 
 // String writes the given string into the response body.
-func String(w http.ResponseWriter, code int, r string) {
+func String(w http.ResponseWriter, code int, s string) {
 	setStatus(w, code)
 
-	_, err := fmt.Fprint(w, r)
+	_, err := fmt.Fprint(w, s)
 	if err != nil {
 		slog.Error(fmt.Sprintf("Could not write response:%s", err))
 		return
@@ -73,8 +73,8 @@ func SetAuth(w http.ResponseWriter, token string) {
 	)
 }
 
-func Redirect(w http.ResponseWriter, path string) {
-	String(w, http.StatusTemporaryRedirect, path)
+func Redirect(w http.ResponseWriter, r *http.Request, path string) {
+	http.Redirect(w, r, path, http.StatusSeeOther)
 }
 
 // SetCookie sets a cookie in he browser
