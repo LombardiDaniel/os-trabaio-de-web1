@@ -7,7 +7,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE auth_sessions(
-    user_email VARCHAR(100) REFERENCES users(email) PRIMARY KEY,
+    session_id VARCHAR(255) PRIMARY KEY,
+    user_email VARCHAR(100) REFERENCES users(email),
     exp TIMESTAMPTZ DEFAULT NOW() + INTERVAL '1 hour'
 );
 
@@ -21,7 +22,7 @@ BEGIN
 END;
 $$ LANGUAGE PLpgSQL;
 
-CREATE TRIGGER delete_expired_org_invites
+CREATE TRIGGER delete_expired_sessions
 AFTER INSERT ON auth_sessions
 FOR EACH STATEMENT EXECUTE FUNCTION delete_expired_sessions();
 

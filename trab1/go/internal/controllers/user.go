@@ -12,11 +12,13 @@ import (
 
 type UserController struct {
 	userService services.UserService
+	authService services.AuthService
 }
 
-func NewUserController(userService services.UserService) Controller {
+func NewUserController(userService services.UserService, authService services.AuthService) Controller {
 	return &UserController{
 		userService: userService,
+		authService: authService,
 	}
 }
 
@@ -32,10 +34,11 @@ func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	u.IsAdmin = false
 
-	err = c.userService.CreateUser(r.Context(), u)
+	err = c.userService.CreateUser(u)
 	if err != nil {
 		slog.Error(err.Error())
 		rest.String(w, http.StatusBadGateway, "BadGateway")
+		return
 	}
 
 	rest.String(w, http.StatusOK, "OK")
@@ -51,18 +54,18 @@ func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u.IsAdmin = false
-
-	err = c.userService.CreateUser(r.Context(), u)
+	token, err := c.authService.InitToken(u.Email, u.Password)
 	if err != nil {
 		slog.Error(err.Error())
-		rest.String(w, http.StatusBadGateway, "BadGateway")
+		rest.String(w, http.StatusUnauthorized, "Unauthorized")
+		return
 	}
 
+	rest.SetAuth(w, token)
 	rest.String(w, http.StatusOK, "OK")
 }
 
 func (c *UserController) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("PUT /user", c.CreateUser)
-	mux.HandleFunc("POST /login", c.CreateUser)
+	mux.HandleFunc("POST /login", c.Login)
 }

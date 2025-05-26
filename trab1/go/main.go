@@ -36,12 +36,13 @@ func init() {
 		panic(errors.Join(err, errors.New("could not ping pgsql")))
 	}
 
-	userService := services.NewUserServicePgImpl(db)
+	userService := services.NewUserServiceImpl(db)
+	authService := services.NewAuthService(db)
 
 	hs = []controllers.Controller{
 		controllers.NewExampleController(),
 		controllers.NewStaticController("./internal/views/"),
-		controllers.NewUserController(userService),
+		controllers.NewUserController(userService, authService),
 	}
 
 	for _, h := range hs {

@@ -8,12 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	models "github.com/lombardidaniel/os-trab-de-web1/trab1/go/internal/model"
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/constants"
-)
-
-var (
-	authCookieName string = constants.AppName + "-authCookie"
 )
 
 // String writes the given string into the response body.
@@ -65,12 +60,26 @@ func Header(w http.ResponseWriter, key string, value string) {
 	w.Header().Set(key, value)
 }
 
-func SetAuth(w http.ResponseWriter, user models.User) {
-
+func SetAuth(w http.ResponseWriter, token string) {
 	SetCookie(
 		w,
-		authCookieName,
+		constants.AuthCookieName,
+		token,
+		30*60,
+		"/",
+		"", // Empty is localhost
+		false,
+		false,
 	)
+}
+
+func GetAuth(r *http.Request) (string, error) {
+	c, err := r.Cookie(constants.AuthCookieName)
+	if err != nil {
+		return "", err
+	}
+
+	return c.Value, nil
 }
 
 // SetCookie sets a cookie in he browser

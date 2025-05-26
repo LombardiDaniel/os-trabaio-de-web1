@@ -10,11 +10,9 @@ import (
 	"github.com/lombardidaniel/os-trab-de-web1/trab1/go/pkg/constants"
 )
 
-var authCookieName = constants.AppName + "-userSessionId"
-
 // UserSessionId gets the Session Id from the cookie in the user's request
 func UserSessionId(req *http.Request) (string, error) {
-	c, err := req.Cookie(authCookieName)
+	c, err := req.Cookie(constants.AuthCookieName)
 	if err != nil {
 		return "", err
 	}
