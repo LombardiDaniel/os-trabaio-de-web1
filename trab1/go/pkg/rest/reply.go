@@ -73,7 +73,9 @@ func SetAuth(w http.ResponseWriter, token string) {
 	)
 }
 
-// func
+func Redirect(w http.ResponseWriter, path string) {
+	String(w, http.StatusTemporaryRedirect, path)
+}
 
 // SetCookie sets a cookie in he browser
 func SetCookie(w http.ResponseWriter, name string, value string, maxAge int, path, domain string, secure, httpOnly bool) {

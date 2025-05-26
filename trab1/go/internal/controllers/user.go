@@ -46,7 +46,7 @@ func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rest.String(w, http.StatusOK, "OK")
+	rest.Redirect(w, "/login")
 }
 
 func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
@@ -67,7 +67,7 @@ func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rest.SetAuth(w, token)
-	rest.String(w, http.StatusTemporaryRedirect, "/")
+	rest.Redirect(w, "/")
 }
 
 func (c *UserController) CheckUser(w http.ResponseWriter, r *http.Request) {
