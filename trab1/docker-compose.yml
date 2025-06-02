@@ -1,0 +1,56 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    network_mode: host
+    depends_on:
+      - db
+      - minio
+    develop:
+      watch:
+        - action: rebuild
+          path: ./
+
+  db:
+    # image: postgres:latest
+    image: postgres:16.6-bullseye
+    # image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    attach: false
+
+  adminer:
+    image: adminer
+    ports:
+      - 8000:8080
+    attach: false
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    expose:
+      - 9000
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    attach: false
+
+volumes:
+  postgres_data:
+  minio_data:

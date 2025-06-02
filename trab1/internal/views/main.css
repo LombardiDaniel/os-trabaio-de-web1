@@ -1,0 +1,83 @@
+{{ define "css" }}
+body {
+  background: #00aaff url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+  color: #000080;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+}
+.centered-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  border: 4px double #ff0;
+  background: #fff8e1;
+  color: #000080;
+  padding: 2rem 2.5rem;
+  border-radius: 0;
+  box-shadow: 0 0 24px #0004;
+  min-width: 320px;
+  max-width: 400px;
+  margin-top: 40px;
+}
+h2, h3 {
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  color: #ff00cc;
+  text-shadow: 1px 1px 0 #fff, 2px 2px 0 #00f;
+}
+.btn {
+  background: linear-gradient(90deg, #ff0 0%, #0ff 100%);
+  color: #000;
+  border: 2px outset #000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1em;
+  padding: 0.5em 1.5em;
+  margin: 0.5em 0;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-block {
+  width: 100%;
+}
+.admin, .user {
+  font-weight: bold;
+  padding: 0.25em 0.75em;
+  border: 2px dashed #f0f;
+  background: #e0e0ff;
+  color: #000080;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+.admin {
+  background: #ffe0ff;
+  color: #c00;
+}
+a {
+  color: #00f;
+  text-decoration: underline;
+  font-weight: bold;
+}
+input[type="email"], input[type="password"] {
+  font-family: 'Courier New', Courier, monospace;
+  border: 2px inset #00f;
+  background: #e0f7fa;
+  color: #000080;
+  padding: 0.3em;
+  width: 90%;
+  margin-bottom: 0.5em;
+}
+label {
+  font-weight: bold;
+  color: #008000;
+  display: block;
+  margin-top: 0.5em;
+}
+form {
+  margin-top: 1em;
+}
+{{ end }}
