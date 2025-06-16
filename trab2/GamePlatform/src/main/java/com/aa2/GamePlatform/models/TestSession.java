@@ -2,6 +2,8 @@ package com.aa2.GamePlatform.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "test_sessions")
 public class TestSession {
@@ -10,21 +12,21 @@ public class TestSession {
     @Column(name = "id")
     private int id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "tester_id",
-            referencedColumn = "id",
-            nullable = false
-    )
-    private Tester tester;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "project_id",
-            referencedColumn = "id",
-            nullable = false
-    )
-    private Project project;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(
+//            name = "tester_id",
+//            referencedColumnName = "id",
+//            nullable = false
+//    )
+//    private List<Tester> tester;
+//
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(
+//            name = "project_id",
+//            referencedColumnName = "id",
+//            nullable = false
+//    )
+//    private List<Project> project;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -36,14 +38,6 @@ public class TestSession {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Tester getTester() {
-        return tester;
-    }
-
-    public void setTester(Tester tester) {
-        this.tester = tester;
     }
 
     public TestSessionStatus getStatus() {

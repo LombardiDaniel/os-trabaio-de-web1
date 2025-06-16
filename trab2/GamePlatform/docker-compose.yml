@@ -10,7 +10,7 @@ services:
         - db_data:/var/lib/mysql # Persist data to a named volume
 
     adminer:
-      image: adminer
+      image: adminer:latest
       ports:
         - "8000:8080"
 
