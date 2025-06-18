@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +36,9 @@ public class Tester {
     @Column(name = "isuseradmin")
     private Boolean isUserAdmin;
 
+    @ManyToMany(mappedBy = "testers")
+    private Set<TestSession> testSessions = new HashSet<>();
+
     public Tester(Integer id, String firstName, String lastName, String email, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
         this.id = id;
         this.firstName = firstName;
@@ -45,6 +50,14 @@ public class Tester {
     }
 
     public Tester() {  }
+
+    public Set<TestSession> getTestSessions() {
+        return testSessions;
+    }
+
+    public void setTestSessions(Set<TestSession> testSessions) {
+        this.testSessions = testSessions;
+    }
 
     public Integer getId() {
         return id;

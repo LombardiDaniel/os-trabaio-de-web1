@@ -5,7 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Project {
@@ -26,6 +27,9 @@ public class Project {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @ManyToMany(mappedBy = "projects")
+    private Set<TestSession> testSessions = new HashSet<>();
+
     public Project(Integer id, String projectName, String projectDescription, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.projectName = projectName;
@@ -34,7 +38,15 @@ public class Project {
         this.updatedAt = updatedAt;
     }
 
-    public Project() {   }
+    public Project() {};
+
+    public Set<TestSession> getTestSessions() {
+        return testSessions;
+    }
+
+    public void setTestSessions(Set<TestSession> testSessions) {
+        this.testSessions = testSessions;
+    }
 
     public Integer getId() {
         return id;
