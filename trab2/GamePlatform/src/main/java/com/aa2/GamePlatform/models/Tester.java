@@ -33,7 +33,7 @@ public class Tester {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @Column(name = "isuseradmin")
+    @Column(name = "is_user_admin")
     private Boolean isUserAdmin;
 
     @ManyToMany(mappedBy = "testers")

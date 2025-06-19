@@ -13,8 +13,8 @@ public class ProjectController {
 
     @GetMapping({"/projects","project"})
     public String getProjects(Model model) {
-        var projects = projectRepository.findAll();
+        model.addAttribute("project", projectRepository.findAll());
 
-        return "projects/index";
+        return "project/index";
     }
 }

@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 @Entity
-@Table(name = "test_sessions")
+@Table(name = "test_session")
 public class TestSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,16 +15,16 @@ public class TestSession {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "test_sessions_tester",
-            joinColumns = @JoinColumn(name = "test_sessions_id"),
+            name = "test_session_tester",
+            joinColumns = @JoinColumn(name = "test_session_id"),
             inverseJoinColumns = @JoinColumn(name = "tester_id")
     )
     private Set<Tester> testers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "test_sessions_project",
-            joinColumns = @JoinColumn(name = "test_sessions_id"),
+            name = "test_session_project",
+            joinColumns = @JoinColumn(name = "test_session_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> projects = new HashSet<>();
@@ -32,6 +32,16 @@ public class TestSession {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TestSessionStatus status = TestSessionStatus.CREATED;
+
+    public TestSession(int id, Set<Tester> testers, Set<Project> projects, TestSessionStatus status) {
+        this.id = id;
+        this.testers = testers;
+        this.projects = projects;
+        this.status = status;
+    }
+
+    public TestSession() {
+    }
 
     public int getId() {
         return id;
