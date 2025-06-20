@@ -9,8 +9,28 @@
 <body>
 
 <div class="container my-3">
-    <h1 class="text-center mb-3">Game Platform</h1>
-    <a class="btn btn-primary" href="/clients">Clients</a>
+    <h1 class="text-center mb-3">Test Sessions</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tester</th>
+            <th>Project</th>
+            <th>Strategy</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="testSession : ${testSessions}">
+            <td th:text="${testSession.id}"></td>
+            <td th:text="${testSession.tester.getEmail()}"></td>
+            <td th:text="${testSession.project.getProjectName()}"></td>
+            <td th:text="${testSession.strategy.getName()}"></td>
+            <td th:text="${testSession.status.name()}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>
