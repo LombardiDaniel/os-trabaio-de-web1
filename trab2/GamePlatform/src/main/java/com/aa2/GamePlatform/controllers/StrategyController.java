@@ -5,13 +5,10 @@ import com.aa2.GamePlatform.models.Strategy;
 import com.aa2.GamePlatform.models.StrategyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.ui.Model;
 import com.aa2.GamePlatform.repositories.StrategyRepository;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.FieldError;
 
 import org.slf4j.LoggerFactory;
@@ -77,5 +74,71 @@ public class StrategyController {
         }
 
         return "redirect:/strategies";
+    }
+
+    @GetMapping("/delete")
+    public String deleteStrategy(@RequestParam int id) {
+        Strategy strategy = strategyRepository.findById(id).orElse(null);
+        if (strategy != null) {
+            strategyRepository.delete(strategy);
+        }
+
+        return "redirect:/strategies";
+    }
+
+    @PostMapping("edit")
+    public String editStrategy(
+            Model model,
+            @RequestParam int id,
+            @ModelAttribute StrategyDto strategyDto,
+            BindingResult result
+    ) {
+
+        Strategy strategy = strategyRepository.findById(id).orElse(null);
+        if (strategy == null) {
+            return "redirect:/strategies";
+        }
+
+        model.addAttribute("strategy", strategy);
+
+        if (result.hasErrors()) {
+            return "strategies/edit";
+        }
+
+        strategy.setName(strategyDto.getName());
+        strategy.setDescription(strategyDto.getDescription());
+        strategy.setExamples(strategyDto.getExamples());
+        strategy.setHints(strategyDto.getHints());
+
+        try {
+            strategyRepository.save(strategy);
+        } catch (Exception e) {
+            result.addError(
+                    new FieldError("strategyDto", "name", strategyDto.getName(), false, null, null, "Strategy Name is already used")
+            );
+
+            return "strategies/edit";
+        }
+
+        return "redirect:/strategies";
+    }
+
+    @GetMapping("edit")
+    public String editClients(Model model, @RequestParam int id) {
+        Strategy strategy = strategyRepository.findById(id).orElse(null);
+        if (strategy == null) {
+            return "redirect:/strategies";
+        }
+
+        StrategyDto strategyDto = new StrategyDto();
+        strategyDto.setName(strategy.getName());
+        strategyDto.setDescription(strategy.getDescription());
+        strategyDto.setExamples(strategy.getExamples());
+        strategyDto.setHints(strategy.getHints());
+
+        model.addAttribute("strategy", strategy);
+        model.addAttribute("strategyDto", strategyDto);
+
+        return "strategies/edit";
     }
 }
