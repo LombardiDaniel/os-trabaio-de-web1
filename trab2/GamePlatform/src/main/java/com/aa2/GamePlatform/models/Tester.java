@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tester")
+@Table(name = "testers")
 public class Tester {
 
     @Id
@@ -36,7 +36,15 @@ public class Tester {
     @Column(name = "is_user_admin")
     private Boolean isUserAdmin;
 
-    @ManyToMany(mappedBy = "testers")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "project_tester",
+            joinColumns = @JoinColumn(name = "tester_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<TestSession> testSessions = new HashSet<>();
 
     public Tester(Integer id, String firstName, String lastName, String email, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
