@@ -111,7 +111,7 @@ public class Tester {
         this.updatedAt = updatedAt;
     }
 
-    public void setUserAdmin(Boolean userAdmin) {
-        isUserAdmin = userAdmin;
+    public void setUserAdmin(Boolean isUserAdmin) {
+        this.isUserAdmin = isUserAdmin;
     }
 }

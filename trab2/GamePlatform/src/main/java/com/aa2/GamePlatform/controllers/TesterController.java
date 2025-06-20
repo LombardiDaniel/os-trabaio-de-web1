@@ -13,7 +13,7 @@ public class TesterController {
 
     @GetMapping({"testers", "tester"})
     public String tester(Model model) {
-        model.addAttribute("tester", testerRepository.findAll());
+        model.addAttribute("testers", testerRepository.findAll());
 
         return "tester/index";
     }
