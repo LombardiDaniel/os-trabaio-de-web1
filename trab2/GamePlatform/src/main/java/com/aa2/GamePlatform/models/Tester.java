@@ -44,7 +44,7 @@ public class Tester {
     )
     private Set<Project> projects = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="tester")
+    @OneToMany(mappedBy = "tester", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TestSession> testSessions = new HashSet<>();
 
     public Tester(Integer id, String firstName, String lastName, String email, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
