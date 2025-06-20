@@ -33,4 +33,62 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "tester_id")
     )
     private Set<Tester> testers = new HashSet<>();
+
+    public Project() {}
+
+    public Project(String projectName, String projectDescription, Instant createdAt, Instant updatedAt, Set<Tester> testers) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.testers = testers;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Set<Tester> getTesters() {
+        return testers;
+    }
+
+    public void setTesters(Set<Tester> testers) {
+        this.testers = testers;
+    }
 }
