@@ -93,7 +93,6 @@ public class StrategyController {
             @ModelAttribute StrategyDto strategyDto,
             BindingResult result
     ) {
-
         Strategy strategy = strategyRepository.findById(id).orElse(null);
         if (strategy == null) {
             return "redirect:/strategies";
