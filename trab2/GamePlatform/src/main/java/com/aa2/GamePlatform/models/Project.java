@@ -34,6 +34,9 @@ public class Project {
     )
     private Set<Tester> testers = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="project")
+    private Set<TestSession> testSessions = new HashSet<>();
+
     public Project() {}
 
     public Project(String projectName, String projectDescription, Instant createdAt, Instant updatedAt, Set<Tester> testers) {
@@ -90,5 +93,13 @@ public class Project {
 
     public void setTesters(Set<Tester> testers) {
         this.testers = testers;
+    }
+
+    public Set<TestSession> getTestSessions() {
+        return testSessions;
+    }
+
+    public void setTestSessions(Set<TestSession> testSessions) {
+        this.testSessions = testSessions;
     }
 }

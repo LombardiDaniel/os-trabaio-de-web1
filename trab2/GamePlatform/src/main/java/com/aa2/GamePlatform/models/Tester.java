@@ -44,7 +44,7 @@ public class Tester {
     )
     private Set<Project> projects = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="tester")
     private Set<TestSession> testSessions = new HashSet<>();
 
     public Tester(Integer id, String firstName, String lastName, String email, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
@@ -58,14 +58,6 @@ public class Tester {
     }
 
     public Tester() {  }
-
-    public Set<TestSession> getTestSessions() {
-        return testSessions;
-    }
-
-    public void setTestSessions(Set<TestSession> testSessions) {
-        this.testSessions = testSessions;
-    }
 
     public Integer getId() {
         return id;
@@ -121,5 +113,21 @@ public class Tester {
 
     public void setUserAdmin(Boolean isUserAdmin) {
         this.isUserAdmin = isUserAdmin;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Set<TestSession> getTestSessions() {
+        return testSessions;
+    }
+
+    public void setTestSessions(Set<TestSession> testSessions) {
+        this.testSessions = testSessions;
     }
 }
