@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${adminDTO.id} ? #{admin.form.title.edit} : #{admin.form.title.new}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4" th:text="${adminDTO.id} ? #{admin.form.title.edit} : #{admin.form.title.new}"></h2>
+
+    <form th:action="@{/admin/admins/salvar}" th:object="${adminDTO}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="nome" th:text="#{admin.name}"></label>
+            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" th:text="#{admin.email}"></label>
+            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="senha" th:text="#{admin.password}"></label>
+            <input type="password" class="form-control" id="senha" th:field="*{senha}"
+                   th:placeholder="${adminDTO.id} ? #{admin.password.hint} : ''">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+        <a th:href="@{/admin/admins}" class="btn btn-secondary" th:text="#{button.back}"></a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
