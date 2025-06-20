@@ -1,43 +1,17 @@
 package com.aa2.GamePlatform.models;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
-@Entity
-@Table(name = "strategies")
-public class Strategy {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(unique = true)
+public class StrategyDto {
+    @NotEmpty(message = "Cannot be empty, Strategy name is required.")
     private String name;
 
+    @NotEmpty(message = "Cannot be empty, Strategy description is required.")
     private String description;
 
-    @Column(name = "examples", columnDefinition = "TEXT")
     private String examples;
 
-    @Column(name = "hints", columnDefinition = "TEXT")
     private String hints;
-
-//    private List<String> images;
-
-    public Strategy() {}
-
-    public Strategy(String name, String description, String examples, String hints) {
-        this.name = name;
-        this.description = description;
-        this.examples = examples;
-        this.hints = hints;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
