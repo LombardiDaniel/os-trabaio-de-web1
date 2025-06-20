@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.name}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-12 text-right">
+            <a th:href="@{/login(lang=pt)}" class="btn btn-sm btn-link" th:text="#{button.portuguese}"></a>
+            <a th:href="@{/login(lang=en)}" class="btn btn-sm btn-link" th:text="#{button.english}"></a>
+        </div>
+    </div>
+    <div class="login-container">
+        <h2 class="text-center mb-4" th:text="#{button.login}"></h2>
+
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            <span th:text="#{login.error}"></span>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-info" role="alert">
+            <span th:text="#{message.logout.success}"></span>
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username" th:text="#{login.email}"></label>
+                <input type="email" class="form-control" id="username" name="username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" th:text="#{login.password}"></label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                <label class="form-check-label" for="remember-me" th:text="#{login.remember_me}"></label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" th:text="#{button.login}"></button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
