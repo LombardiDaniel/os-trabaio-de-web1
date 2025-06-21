@@ -27,6 +27,9 @@ public class Tester {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @CreationTimestamp
     private Instant createdAt;
 
@@ -75,6 +78,10 @@ public class Tester {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -101,6 +108,10 @@ public class Tester {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setCreatedAt(Instant createdAt) {

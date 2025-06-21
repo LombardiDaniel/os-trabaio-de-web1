@@ -62,6 +62,7 @@ public class TesterController {
         createdTester.setFirstName(tester.getFirstName());
         createdTester.setLastName(tester.getLastName());
         createdTester.setEmail(tester.getEmail());
+        createdTester.setPassword(tester.getPassword()); 
         createdTester.setUserAdmin(tester.getUserAdmin());
         createdTester.setCreatedAt(new Date().toInstant());
         createdTester.setUpdatedAt(new Date().toInstant());

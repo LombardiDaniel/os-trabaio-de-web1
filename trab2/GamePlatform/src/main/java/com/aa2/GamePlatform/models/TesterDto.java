@@ -18,6 +18,9 @@ public class TesterDto {
     @NotNull(message = "Cannot null, setup if user is admin required")
     private Boolean isUserAdmin;
 
+    @NotEmpty(message = "Cannot empty, password required")
+    private String password;
+
     public String getFirstName() {
         return firstName;
     }
@@ -48,5 +51,13 @@ public class TesterDto {
 
     public void setUserAdmin(Boolean userAdmin) {
         isUserAdmin = userAdmin;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

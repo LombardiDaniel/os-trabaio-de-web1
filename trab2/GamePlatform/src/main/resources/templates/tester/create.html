@@ -44,6 +44,16 @@
                     </div>
 
                     <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label">Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" th:field="${tester.password}" />
+                            <p th:if="${#fields.hasErrors('password')}"
+                               th:errorclass="text-danger"
+                               th:errors="${tester.password}"></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">Admin</label>
                         <div class="col-sm-8">
                             <select class="form-select" th:field="${tester.UserAdmin}">
