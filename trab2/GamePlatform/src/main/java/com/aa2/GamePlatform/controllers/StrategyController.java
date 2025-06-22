@@ -13,6 +13,12 @@ import org.springframework.validation.FieldError;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import com.aa2.GamePlatform.models.Tester;
+import com.aa2.GamePlatform.models.UserSession;
+import com.aa2.GamePlatform.repositories.UserSessionRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import java.time.Instant;
 
 @Controller
 @RequestMapping("/strategies")
@@ -21,6 +27,9 @@ public class StrategyController {
 
     @Autowired
     private StrategyRepository strategyRepository;
+
+    @Autowired
+    private UserSessionRepository userSessionRepository;
 
     @GetMapping({"", "/"})
     public String index(Model model)  {
@@ -37,8 +46,13 @@ public class StrategyController {
     public String createStrategy(
             @ModelAttribute StrategyDto strategyDto,
             Model model,
-            BindingResult result
+            BindingResult result,
+            HttpServletRequest request
     )  {
+        Tester tester = getLoggedTester(request);
+        if (!isAdmin(tester)) {
+            return "redirect:/access-denied";
+        }
 
         if (strategyDto.getDescription() != null && strategyDto.getDescription().isEmpty()) {
             result.addError(
@@ -77,7 +91,11 @@ public class StrategyController {
     }
 
     @GetMapping("/delete")
-    public String deleteStrategy(@RequestParam int id) {
+    public String deleteStrategy(@RequestParam int id, HttpServletRequest request) {
+        Tester tester = getLoggedTester(request);
+        if (!isAdmin(tester)) {
+            return "redirect:/access-denied";
+        }
         Strategy strategy = strategyRepository.findById(id).orElse(null);
         if (strategy != null) {
             strategyRepository.delete(strategy);
@@ -91,8 +109,13 @@ public class StrategyController {
             Model model,
             @RequestParam int id,
             @ModelAttribute StrategyDto strategyDto,
-            BindingResult result
+            BindingResult result,
+            HttpServletRequest request
     ) {
+        Tester tester = getLoggedTester(request);
+        if (!isAdmin(tester)) {
+            return "redirect:/access-denied";
+        }
         Strategy strategy = strategyRepository.findById(id).orElse(null);
         if (strategy == null) {
             return "redirect:/strategies";
@@ -123,7 +146,11 @@ public class StrategyController {
     }
 
     @GetMapping("edit")
-    public String editClients(Model model, @RequestParam int id) {
+    public String editClients(Model model, @RequestParam int id, HttpServletRequest request) {
+        Tester tester = getLoggedTester(request);
+        if (!isAdmin(tester)) {
+            return "redirect:/access-denied";
+        }
         Strategy strategy = strategyRepository.findById(id).orElse(null);
         if (strategy == null) {
             return "redirect:/strategies";
@@ -139,5 +166,24 @@ public class StrategyController {
         model.addAttribute("strategyDto", strategyDto);
 
         return "strategies/edit";
+    }
+
+    private Tester getLoggedTester(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("SESSION_TOKEN".equals(cookie.getName())) {
+                    UserSession session = userSessionRepository.findByToken(cookie.getValue());
+                    if (session != null && session.getExpiresAt().isAfter(Instant.now())) {
+                        return session.getTester();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isAdmin(Tester tester) {
+        return tester != null && Boolean.TRUE.equals(tester.getUserAdmin());
     }
 }
