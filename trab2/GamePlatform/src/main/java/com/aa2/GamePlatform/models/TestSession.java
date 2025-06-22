@@ -2,10 +2,6 @@ package com.aa2.GamePlatform.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-
 @Entity
 @Table(name = "test_sessions")
 public class TestSession {
@@ -29,6 +25,9 @@ public class TestSession {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TestSessionStatus status = TestSessionStatus.CREATED;
+
+    @Column(nullable = false)
+    private int durationMins;
 
     public TestSession() {}
 
@@ -78,7 +77,7 @@ public class TestSession {
         this.status = status;
     }
 
-    public void updateStatus() {
+    public void incrementStatus() {
         switch (this.status) {
             case CREATED:
                 this.setStatus(TestSessionStatus.IN_PROGRESS);
