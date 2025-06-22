@@ -46,9 +46,12 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public String createProject(@Valid @ModelAttribute ProjectDto project,
-                               BindingResult bindingResult, Model model,
-                               HttpServletRequest request) {
+    public String createProject(
+            @Valid @ModelAttribute ProjectDto project,
+            BindingResult bindingResult,
+            Model model,
+            HttpServletRequest request
+    ) {
         Tester tester = getLoggedTester(request);
         if (!isAdmin(tester)) {
             return "redirect:/access-denied";

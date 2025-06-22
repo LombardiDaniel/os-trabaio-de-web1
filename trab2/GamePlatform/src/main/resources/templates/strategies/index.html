@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,10 +9,34 @@
 <body>
 
 <div class="container my-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Game Platform</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/login">Log In</a>-->
+<!--                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/strategies">Strategies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/test_sessions">Test Sessions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <h1 class="text-center mb-3">Strategies</h1>
 
-<!--    <sec:authorize access="isAuthenticated()">-->
-    <form method="post" th:action="@{/strategies}" th:object="${strategyDto}">
+    <form method="post" th:if="${user != null and user.userAdmin}" th:action="@{/strategies}" th:object="${strategyDto}">
         <div class="row mb-3">
             <label class="col-sm-4 col-form-label">Strategy Name</label>
             <div class="col-sm-8">
@@ -62,7 +86,6 @@
 <!--            </div>-->
         </div>
     </form>
-<!--    </sec:authorize>-->
 
     <table class="table">
         <thead>
