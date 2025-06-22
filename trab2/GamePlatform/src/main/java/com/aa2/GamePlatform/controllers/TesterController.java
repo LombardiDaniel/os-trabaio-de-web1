@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import java.util.Date;
 @RequestMapping({"tester", "testers"})
 public class TesterController {
     private static final Logger log = LoggerFactory.getLogger(TesterController.class);
+
     @Autowired
     private TesterRepository testerRepository;
 
@@ -58,11 +60,13 @@ public class TesterController {
             return "tester/create";
         }
 
+        String hashedPassword = new BCryptPasswordEncoder().encode(tester.getPassword());
+
         Tester createdTester = new Tester();
         createdTester.setFirstName(tester.getFirstName());
         createdTester.setLastName(tester.getLastName());
         createdTester.setEmail(tester.getEmail());
-        createdTester.setPassword(tester.getPassword()); 
+        createdTester.setPassword(hashedPassword);
         createdTester.setUserAdmin(tester.getUserAdmin());
         createdTester.setCreatedAt(new Date().toInstant());
         createdTester.setUpdatedAt(new Date().toInstant());

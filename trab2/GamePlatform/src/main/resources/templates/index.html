@@ -10,11 +10,11 @@
 
 <div class="container my-3">
     <h1 class="text-center mb-3">Game Platform</h1>
-    <a class="btn btn-primary" href="/login">LogIn</a>
+    <a class="btn btn-primary" th:if="${user == null}" href="/login">LogIn</a>
     <a class="btn btn-primary" href="/strategies">Strategies</a>
 <!--    only if logged in: -->
-    <a class="btn btn-primary" href="/projects">Projects</a>
-    <a class="btn btn-primary" href="/test_sessions">Test Sessions</a>
+    <a class="btn btn-primary" th:if="${user != null}" href="/projects">Projects</a>
+    <a class="btn btn-primary" th:if="${user != null}" href="/test_sessions">Test Sessions</a>
 <!--    done -->
 </div>
 

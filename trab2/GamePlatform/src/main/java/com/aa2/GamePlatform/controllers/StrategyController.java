@@ -32,10 +32,15 @@ public class StrategyController {
     private UserSessionRepository userSessionRepository;
 
     @GetMapping({"", "/"})
-    public String index(Model model)  {
+    public String index(
+            Model model,
+            HttpServletRequest request
+    )  {
+        Tester tester = getLoggedTester(request);
 
         StrategyDto strategyDto = new StrategyDto();
 
+        model.addAttribute("user", tester);
         model.addAttribute("strategyDto", strategyDto);
         model.addAttribute("strategies", strategyRepository.findAll());
 

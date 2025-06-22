@@ -7,6 +7,7 @@ import com.aa2.GamePlatform.repositories.UserSessionRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,8 @@ public class LoginController {
         // Find tester by email
         Tester tester = testerRepository.findByEmail(email);
 
-        // Check password (assuming plain text for demo; use hashing in production)
-        if (tester == null || !password.equals(tester.getPassword())) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (tester == null || !encoder.matches(password, tester.getPassword())) {
             model.addAttribute("error", true);
             return "login/index";
         }
