@@ -36,6 +36,26 @@
     </nav>
     <h1 class="text-center mb-3">Test Sessions</h1>
 
+    <form class="row g-3 mb-3" method="get" th:action="@{/test_sessions}">
+        <div class="col-auto">
+            <label for="projectIdFilter" class="col-form-label">Filter by Project:</label>
+        </div>
+        <div class="col-auto">
+            <select id="projectIdFilter" name="projectId" class="form-select">
+                <option value="" th:selected="${projectId == null}">All Projects</option>
+                <option th:each="project : ${projects}"
+                        th:value="${project.id}"
+                        th:text="${project.projectName}"
+                        th:selected="${project.id == projectId}">
+                </option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="/test_sessions" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+
     <div class="mb-3 text-end">
         <a href="/test_sessions/create" class="btn btn-primary">Create Test Session</a>
     </div>

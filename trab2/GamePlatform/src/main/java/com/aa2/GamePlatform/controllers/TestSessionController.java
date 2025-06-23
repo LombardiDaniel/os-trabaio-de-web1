@@ -35,16 +35,30 @@ public class TestSessionController {
     private UserSessionRepository userSessionRepository;
 
     @GetMapping({"", "/"})
-    public String index(Model model, HttpServletRequest request)  {
+    public String index(
+            Model model,
+            HttpServletRequest request,
+            @RequestParam(name = "projectId", required = false) Integer projectId
+    )  {
         Tester tester = getLoggedTester(request);
         if (tester == null) {
             return "redirect:/access-denied";
         }
 
-        if (isAdmin(tester)) {
-            model.addAttribute("testSessions", testSessionRepository.findAll());
+        if (projectId != null) {
+            model.addAttribute("testSessions", testSessionRepository.findByProjectId(projectId));
         } else {
-            model.addAttribute("testSessions", testSessionRepository.findByTesterId(tester.getId()));
+            if (isAdmin(tester)) {
+                model.addAttribute("testSessions", testSessionRepository.findAll());
+            } else {
+                model.addAttribute("testSessions", testSessionRepository.findByTesterId(tester.getId()));
+            }
+        }
+
+        if (isAdmin(tester)) {
+            model.addAttribute("projects", projectRepository.findAll());
+        } else {
+            model.addAttribute("projects", projectRepository.findByTesterId(tester.getId()));
         }
 
         return "test_sessions/index";
