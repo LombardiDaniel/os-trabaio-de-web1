@@ -1,18 +1,10 @@
 package com.aa2.GamePlatform.models;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "test_sessions")
@@ -33,6 +25,9 @@ public class TestSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "strategy_id", nullable = false)
     private Strategy strategy;
+
+    @OneToMany(mappedBy="test_session", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bug> bugs;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -131,5 +126,13 @@ public class TestSession {
             case COMPLETED:
                 break;
         }
+    }
+
+    public List<Bug> getBugs() {
+        return bugs;
+    }
+
+    public void setBugs(List<Bug> bugs) {
+        this.bugs = bugs;
     }
 }

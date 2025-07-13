@@ -50,11 +50,11 @@ public class Tester {
     @OneToMany(mappedBy = "tester", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TestSession> testSessions = new HashSet<>();
 
-    public Tester(Integer id, String firstName, String lastName, String email, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
-        this.id = id;
+    public Tester(String firstName, String lastName, String email, String password, Instant createdAt, Instant updatedAt, Boolean isUserAdmin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isUserAdmin = isUserAdmin;
