@@ -16,6 +16,7 @@ public class Project {
     @Column(name = "id")
     private Integer id;
 
+    @Column(unique = true)
     private String projectName;
 
     private String projectDescription;
@@ -45,6 +46,13 @@ public class Project {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.testers = testers;
+    }
+
+    public Project(String projectName, String projectDescription, Instant createdAt, Instant updatedAt) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Integer getId() {

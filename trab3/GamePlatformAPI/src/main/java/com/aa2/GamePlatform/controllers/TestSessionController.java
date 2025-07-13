@@ -17,7 +17,7 @@ import com.aa2.GamePlatform.repositories.TesterRepository;
 import com.aa2.GamePlatform.repositories.UserSessionRepository;
 
 @RestController
-@RequestMapping("/test_sessions")
+@RequestMapping({"test_session","test_sessions"})
 public class TestSessionController {
     private static final Logger log = LoggerFactory.getLogger(TestSessionController.class);
 
