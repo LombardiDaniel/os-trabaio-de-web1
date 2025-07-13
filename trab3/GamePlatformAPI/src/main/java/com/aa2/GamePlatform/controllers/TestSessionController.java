@@ -59,7 +59,9 @@ public class TestSessionController {
                 ts.getTester().getId(),
                 ts.getProject().getId(),
                 ts.getStrategy().getId(),
-                ts.getStatus().toString()
+                ts.getStatus().toString(),
+                ts.getStartTime(),
+                ts.getEndTime()
             ))
             .orElse(null);
         }
@@ -73,7 +75,9 @@ public class TestSessionController {
                         ts.getTester().getId(),
                         ts.getProject().getId(),
                         ts.getStrategy().getId(),
-                        ts.getStatus().toString()
+                        ts.getStatus().toString(),
+                        ts.getStartTime(),
+                        ts.getEndTime()
                     ))
                     .toList();
             } else {
@@ -90,7 +94,9 @@ public class TestSessionController {
                         ts.getTester().getId(),
                         ts.getProject().getId(),
                         ts.getStrategy().getId(),
-                        ts.getStatus().toString()
+                        ts.getStatus().toString(),
+                        ts.getStartTime(),
+                        ts.getEndTime()
                     ))
                     .toList();
             } else {
@@ -104,7 +110,9 @@ public class TestSessionController {
                 ts.getTester().getId(),
                 ts.getProject().getId(),
                 ts.getStrategy().getId(),
-                ts.getStatus().toString()
+                ts.getStatus().toString(),
+                ts.getStartTime(),
+                ts.getEndTime()
             ))
             .toList();
     }
