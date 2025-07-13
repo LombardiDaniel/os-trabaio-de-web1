@@ -21,7 +21,7 @@ import com.aa2.GamePlatform.repositories.StrategyRepository;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/strategies")
+@RequestMapping({"strategy","/strategies"})
 public class StrategyController {
     private static final Logger log = LoggerFactory.getLogger(StrategyController.class);
 

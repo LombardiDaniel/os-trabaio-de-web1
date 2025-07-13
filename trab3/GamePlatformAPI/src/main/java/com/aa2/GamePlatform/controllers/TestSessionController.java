@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/test_sessions")
+@RequestMapping({"test_session","test_sessions"})
 public class TestSessionController {
     private static final Logger log = LoggerFactory.getLogger(TestSessionController.class);
 
