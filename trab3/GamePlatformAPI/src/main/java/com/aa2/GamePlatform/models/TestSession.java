@@ -1,6 +1,18 @@
 package com.aa2.GamePlatform.models;
 
-import jakarta.persistence.*;
+import java.time.Instant;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "test_sessions")
@@ -25,6 +37,9 @@ public class TestSession {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TestSessionStatus status = TestSessionStatus.CREATED;
+
+    @Column(name = "start_time", nullable = true)
+    private Instant startTime = Instant.now();
 
     @Column(nullable = false)
     private int durationMins;
@@ -70,6 +85,13 @@ public class TestSession {
     }
 
     public TestSessionStatus getStatus() {
+        if (this.status == TestSessionStatus.IN_PROGRESS) {
+            Instant endTime = startTime.plusSeconds(durationMins * 60L);
+            if (Instant.now().isAfter(endTime)) {
+                this.setStatus(TestSessionStatus.COMPLETED);
+                return this.status;
+            }
+        }
         return status;
     }
 
@@ -77,10 +99,19 @@ public class TestSession {
         this.status = status;
     }
 
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
     public void incrementStatus() {
         switch (this.status) {
             case CREATED:
                 this.setStatus(TestSessionStatus.IN_PROGRESS);
+                this.setStartTime(Instant.now());
                 break;
             case IN_PROGRESS:
                 this.setStatus(TestSessionStatus.COMPLETED);
