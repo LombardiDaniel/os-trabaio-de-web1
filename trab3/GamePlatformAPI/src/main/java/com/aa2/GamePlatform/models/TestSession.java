@@ -41,6 +41,9 @@ public class TestSession {
     @Column(name = "start_time", nullable = true)
     private Instant startTime = Instant.now();
 
+    @Column(name = "end_time", nullable = true)
+    private Instant endTime = Instant.now();
+
     @Column(nullable = false)
     private int durationMins;
 
@@ -107,6 +110,14 @@ public class TestSession {
         this.startTime = startTime;
     }
 
+    public Instant getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
+    }
+
     public void incrementStatus() {
         switch (this.status) {
             case CREATED:
@@ -115,6 +126,7 @@ public class TestSession {
                 break;
             case IN_PROGRESS:
                 this.setStatus(TestSessionStatus.COMPLETED);
+                this.setEndTime(Instant.now());
                 break;
             case COMPLETED:
                 break;
