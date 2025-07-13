@@ -2,11 +2,20 @@ package com.aa2.GamePlatform.models;
 
 import java.time.Instant;
 
+import jakarta.validation.constraints.NotNull;
+
 public class TestSessionDto {
     private Integer id;
+
+    @NotNull(message = "Cannot be null, testerId required")
     private Integer testerId;
+    
+    @NotNull(message = "Cannot be null, projectId required")
     private Integer projectId;
+    
+    @NotNull(message = "Cannot be null, strategyId required")
     private Integer strategyId;
+
     private String status;
     private Instant startTime;
     private Instant endTime;

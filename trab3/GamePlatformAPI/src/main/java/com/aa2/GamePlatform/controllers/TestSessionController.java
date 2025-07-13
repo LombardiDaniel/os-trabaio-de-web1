@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -138,10 +139,20 @@ public class TestSessionController {
 
         testSessionRepository.save(testSession);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(testSession);
+        TestSessionDto dto = new TestSessionDto(
+            testSession.getId(),
+            testSession.getTester().getId(),
+            testSession.getProject().getId(),
+            testSession.getStrategy().getId(),
+            testSession.getStatus().toString(),
+            testSession.getStartTime(),
+            testSession.getEndTime()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    @PostMapping("/status/{id}")
+    @PutMapping("/status/{id}")
     public ResponseEntity<?> incrementTestSession(@PathVariable int id) {
         TestSession testSession = testSessionRepository.findById(id).orElse(null);
         if (testSession == null) {
@@ -151,133 +162,4 @@ public class TestSessionController {
         testSessionRepository.save(testSession);
         return ResponseEntity.ok().build();
     }
-
-//    @GetMapping({"", "/"})
-//    public String index(
-//            Model model,
-//            HttpServletRequest request,
-//            @RequestParam(name = "projectId", required = false) Integer projectId
-//    )  {
-//        Tester tester = getLoggedTester(request);
-//        if (tester == null) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        if (projectId != null) {
-//            model.addAttribute("testSessions", testSessionRepository.findByProjectId(projectId));
-//        } else {
-//            if (isAdmin(tester)) {
-//                model.addAttribute("testSessions", testSessionRepository.findAll());
-//            } else {
-//                model.addAttribute("testSessions", testSessionRepository.findByTesterId(tester.getId()));
-//            }
-//        }
-//
-//        if (isAdmin(tester)) {
-//            model.addAttribute("projects", projectRepository.findAll());
-//        } else {
-//            model.addAttribute("projects", projectRepository.findByTesterId(tester.getId()));
-//        }
-//
-//        return "test_sessions/index";
-//    }
-//
-//    @GetMapping("/create")
-//    public String create(Model model, HttpServletRequest request) {
-//        Tester tester = getLoggedTester(request);
-//        if (tester == null) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        model.addAttribute("strategies", strategyRepository.findAll());
-//        model.addAttribute("testSessionDto", new TestSessionDto());
-//
-//        if (isAdmin(tester)) {
-//            model.addAttribute("projects", projectRepository.findAll());
-//        } else {
-//            model.addAttribute("projects", projectRepository.findByTesterId(tester.getId()));
-//        }
-//
-//        return "test_sessions/create";
-//    }
-//
-//    @PostMapping({"", "/"})
-//    public String createTestSession(
-//            Model model,
-//            TestSessionDto testSessionDto,
-////            @RequestParam int projectId,
-//            BindingResult result,
-//            HttpServletRequest request
-//    ) {
-//        Tester tester = getLoggedTester(request);
-//        if (tester == null) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        var projectOpt = projectRepository.findById(testSessionDto.getProjectId());
-//        var strategyOpt = strategyRepository.findById(testSessionDto.getStrategyId());
-//
-//        if (projectOpt.isEmpty() || strategyOpt.isEmpty()) {
-//            model.addAttribute("error", "Invalid tester, project or strategy");
-//            return "redirect:/test_sessions";
-//        }
-//
-//        log.warn("{} {} {}", tester.getId(), projectOpt.get().getId(), strategyOpt.get().getId());
-//
-//        TestSession testSession = new TestSession(
-//                tester,
-//                projectOpt.get(),
-//                strategyOpt.get()
-//        );
-//
-//        testSessionRepository.save(testSession);
-//
-//        return "redirect:/test_sessions";
-//    }
-//
-//    @PostMapping("/increment/{id}")
-//    public String incrementSession(
-//            HttpServletRequest request,
-//            @PathVariable("id") int sessionId
-//        ) {
-//        log.warn("Incrementing test session id {}", sessionId);
-//        Tester tester = getLoggedTester(request);
-//        if (tester == null) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        var tgtSessionOpt = testSessionRepository.findById(sessionId);
-//        if (tgtSessionOpt.isEmpty()) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        var tgtSession = tgtSessionOpt.get();
-//        if (!tester.getId().equals(tgtSession.getTester().getId())) {
-//            return "redirect:/access-denied";
-//        }
-//
-//        tgtSession.incrementStatus();
-//        testSessionRepository.save(tgtSession);
-//        return "redirect:/test_sessions";
-//    }
-//
-//
-//    private Tester getLoggedTester(HttpServletRequest request) {
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if ("SESSION_TOKEN".equals(cookie.getName())) {
-//                    UserSession session = userSessionRepository.findByToken(cookie.getValue());
-//                    if (session != null && session.getExpiresAt().isAfter(Instant.now())) {
-//                        return session.getTester();
-//                    }
-//                }
-//            }
-//        }
-//        return null;
-//    }
-//
-//    private boolean isAdmin(Tester tester) {
-//        return tester != null && Boolean.TRUE.equals(tester.getUserAdmin());
-//    }
 }

@@ -2,9 +2,20 @@ package com.aa2.GamePlatform.models;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "test_sessions")
@@ -34,10 +45,10 @@ public class TestSession {
     private TestSessionStatus status = TestSessionStatus.CREATED;
 
     @Column(name = "start_time", nullable = true)
-    private Instant startTime = Instant.now();
+    private Instant startTime = null;
 
     @Column(name = "end_time", nullable = true)
-    private Instant endTime = Instant.now();
+    private Instant endTime = null;
 
     @Column(nullable = false)
     private int durationMins;
