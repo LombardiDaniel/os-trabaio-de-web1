@@ -1,20 +1,26 @@
 package com.aa2.GamePlatform.models;
 
+import java.time.Instant;
+
 public class TestSessionDto {
     private Integer id;
     private Integer testerId;
     private Integer projectId;
     private Integer strategyId;
     private String status;
+    private Instant startTime;
+    private Instant endTime;
 
     public TestSessionDto() {}
 
-    public TestSessionDto(Integer id, Integer testerId, Integer projectId, Integer strategyId, String status) {
+    public TestSessionDto(Integer id, Integer testerId, Integer projectId, Integer strategyId, String status, Instant startTime, Instant endTime) {
         this.id = id;
         this.testerId = testerId;
         this.projectId = projectId;
         this.strategyId = strategyId;
         this.status = status;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public Integer getId() {
@@ -55,5 +61,21 @@ public class TestSessionDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Instant getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
     }
 }
