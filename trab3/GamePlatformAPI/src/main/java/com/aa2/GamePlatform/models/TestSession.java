@@ -98,6 +98,7 @@ public class TestSession {
             Instant endTime = startTime.plusSeconds(durationMins * 60L);
             if (Instant.now().isAfter(endTime)) {
                 this.setStatus(TestSessionStatus.COMPLETED);
+                this.setEndTime(endTime);
                 return this.status;
             }
         }
