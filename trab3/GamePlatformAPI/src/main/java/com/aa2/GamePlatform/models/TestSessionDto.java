@@ -3,6 +3,7 @@ package com.aa2.GamePlatform.models;
 import java.util.List;
 
 public class TestSessionDto {
+    private Integer id;
     private Integer testerId;
     private Integer projectId;
     private Integer strategyId;
@@ -11,19 +12,20 @@ public class TestSessionDto {
 
     public TestSessionDto() {}
 
-    public TestSessionDto(Integer testerId, Integer projectId, Integer strategyId, String status) {
+    public TestSessionDto(Integer id, Integer testerId, Integer projectId, Integer strategyId, String status) {
+        this.id = id;
         this.testerId = testerId;
         this.projectId = projectId;
         this.strategyId = strategyId;
         this.status = status;
     }
 
-    public TestSessionDto(Integer testerId, Integer projectId, Integer strategyId, String status, List<TestSession> testSessions) {
-        this.testerId = testerId;
-        this.projectId = projectId;
-        this.strategyId = strategyId;
-        this.status = status;
-        this.testSessions = testSessions;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getTesterId() {
