@@ -2,7 +2,6 @@ package com.aa2.GamePlatform.controllers;
 
 import com.aa2.GamePlatform.models.*;
 import com.aa2.GamePlatform.repositories.ProjectRepository;
-import com.aa2.GamePlatform.repositories.UserSessionRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,6 @@ import java.util.Date;
 public class ProjectController {
     @Autowired
     private ProjectRepository projectRepository;
-
-    @Autowired
-    private UserSessionRepository userSessionRepository;
 
     @GetMapping({"","/"})
     public Object getAllProjects(

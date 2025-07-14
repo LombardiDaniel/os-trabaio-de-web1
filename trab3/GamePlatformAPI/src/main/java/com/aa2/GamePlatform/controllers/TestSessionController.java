@@ -22,7 +22,6 @@ import com.aa2.GamePlatform.repositories.ProjectRepository;
 import com.aa2.GamePlatform.repositories.StrategyRepository;
 import com.aa2.GamePlatform.repositories.TestSessionRepository;
 import com.aa2.GamePlatform.repositories.TesterRepository;
-import com.aa2.GamePlatform.repositories.UserSessionRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -43,9 +42,6 @@ public class TestSessionController {
 
     @Autowired
     private ProjectRepository projectRepository;
-
-    @Autowired
-    private UserSessionRepository userSessionRepository;
 
     @GetMapping({"", "/"})
     public Object getTestSessions(
