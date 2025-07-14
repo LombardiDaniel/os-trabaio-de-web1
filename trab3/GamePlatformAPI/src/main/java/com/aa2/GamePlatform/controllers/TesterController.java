@@ -44,7 +44,7 @@ public class TesterController {
                 new BCryptPasswordEncoder().encode(testerDto.getPassword()),
                 new Date().toInstant(),
                 new Date().toInstant(),
-                testerDto.getUserAdmin()
+                testerDto.getIsUserAdmin()
         );
 
         try {

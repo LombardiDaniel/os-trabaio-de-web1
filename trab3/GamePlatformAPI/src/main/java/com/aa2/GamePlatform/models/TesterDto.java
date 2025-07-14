@@ -16,7 +16,7 @@ public class TesterDto {
     private String email;
 
     @NotNull(message = "Cannot null, setup if user is admin required")
-    private Boolean isUserAdmin;
+    private Boolean isUserAdmin; // Field name
 
     @NotEmpty(message = "Cannot empty, password required")
     private String password;
@@ -45,12 +45,12 @@ public class TesterDto {
         this.email = email;
     }
 
-    public Boolean getUserAdmin() {
+    public Boolean getIsUserAdmin() {
         return isUserAdmin;
     }
 
-    public void setUserAdmin(Boolean userAdmin) {
-        isUserAdmin = userAdmin;
+    public void setIsUserAdmin(Boolean isUserAdmin) {
+        this.isUserAdmin = isUserAdmin;
     }
 
     public String getPassword() {
