@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class BugDto {
 
@@ -17,15 +18,15 @@ public class BugDto {
     private String stepsToReproduce;
 
     @Enumerated(EnumType.STRING)
-    @NotEmpty(message = "Cannot be empty, Bug status is required.")
+    @NotNull(message = "Cannot be null, Bug status is required.") // MUST BE @NotNull
     private BugStatus status;
 
     @Enumerated(EnumType.STRING)
-    @NotEmpty(message = "Cannot be empty, Bug priority is required.")
+    @NotNull(message = "Cannot be null, Bug priority is required.") // MUST BE @NotNull
     private BugPriority priority;
 
     @Enumerated(EnumType.STRING)
-    @NotEmpty(message = "Cannot be empty, Bug severity is required.")
+    @NotNull(message = "Cannot be null, Bug severity is required.") // MUST BE @NotNull
     private BugSeverity severity;
 
     public BugDto(String title, String description, String stepsToReproduce, BugStatus status, BugPriority priority, BugSeverity severity) {

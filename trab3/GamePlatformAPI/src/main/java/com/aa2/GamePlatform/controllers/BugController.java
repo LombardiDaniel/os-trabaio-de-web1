@@ -97,4 +97,14 @@ public class BugController {
         bugRepository.delete(bug);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBugById(@PathVariable Integer id) {
+        var bug = bugRepository.findById(id);
+        if (bug.isPresent()) {
+            return ResponseEntity.ok(bug.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
